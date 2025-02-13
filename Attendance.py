@@ -20,18 +20,43 @@ if st.button("Login"):
     # JavaScript to get the user's location
     location_script = """
     <script>
-    navigator.geolocation.getCurrentPosition(
-        (position) => {
-            const latitude = position.coords.latitude;
-            const longitude = position.coords.longitude;
-            const location = `${latitude},${longitude}`;
-            document.getElementById("location").value = location;
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition, showError);
+        } else {
+            document.getElementById("location").value = "Geolocation is not supported by this browser.";
             document.getElementById("location-form").submit();
-        },
-        (error) => {
-            console.error(error);
         }
-    );
+    }
+
+    function showPosition(position) {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        const location = `${latitude},${longitude}`;
+        document.getElementById("location").value = location;
+        document.getElementById("location-form").submit();
+    }
+
+    function showError(error) {
+        switch(error.code) {
+            case error.PERMISSION_DENIED:
+                alert("User denied the request for Geolocation.");
+                break;
+            case error.POSITION_UNAVAILABLE:
+                alert("Location information is unavailable.");
+                break;
+            case error.TIMEOUT:
+                alert("The request to get user location timed out.");
+                break;
+            case error.UNKNOWN_ERROR:
+                alert("An unknown error occurred.");
+                break;
+        }
+        document.getElementById("location").value = "Error retrieving location.";
+        document.getElementById("location-form").submit();
+    }
+
+    getLocation();
     </script>
     <form id="location-form" action="" method="GET">
         <input type="hidden" name="location" id="location">
@@ -42,11 +67,11 @@ if st.button("Login"):
     # Get user's location from query parameters
     user_location = st.query_params.get('location')
     
-    if user_location:
+    if user_location and "Error" not in user_location[0]:
         user_location = tuple(map(float, user_location[0].split(',')))
         if is_within_allowed_area(user_location):
             st.success("You are within the allowed area. Attendance marked!")
         else:
             st.error("You are outside the allowed area. Attendance not marked.")
     else:
-        st.error("Unable to retrieve location from browser.")
+        st.error("Unable to retrieve location from browser. Please ensure location access is allowed.")
