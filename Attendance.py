@@ -7,7 +7,7 @@ allowed_area = (28.5810, 77.0571)  # Example coordinates for Bangalore
 # Function to check if the user is within the allowed area
 def is_within_allowed_area(user_location):
     distance = geodesic(user_location, allowed_area).km
-    return distance <= 1  # Allow within 1 km radius
+    return distance <= 10  # Allow within 1 km radius
 
 # Streamlit app
 st.title("Employee Attendance")
