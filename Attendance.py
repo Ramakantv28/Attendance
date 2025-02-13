@@ -40,7 +40,7 @@ if st.button("Login"):
     st.components.v1.html(location_script)
 
     # Get user's location from query parameters
-    user_location = st.experimental_get_query_params().get('location')
+    user_location = st.query_params.get('location')
     
     if user_location:
         user_location = tuple(map(float, user_location[0].split(',')))
