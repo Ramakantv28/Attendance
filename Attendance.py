@@ -75,9 +75,12 @@ if st.button("Login"):
             st.error("You are outside the allowed area. Attendance not marked.")
     else:
         st.error("Unable to retrieve location from browser. Please ensure location access is allowed.")
+        
+        # Manual input for location
         st.write("If the automatic location retrieval fails, please enter your coordinates manually below:")
         latitude = st.number_input("Latitude", format="%.6f")
         longitude = st.number_input("Longitude", format="%.6f")
+        
         if st.button("Submit Location"):
             user_location = (latitude, longitude)
             if is_within_allowed_area(user_location):
