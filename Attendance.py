@@ -1,6 +1,3 @@
-!pip install streamlit
-!pip install geopy
-
 import streamlit as st
 from geopy.distance import geodesic
 
