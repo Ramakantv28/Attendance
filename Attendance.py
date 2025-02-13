@@ -2,8 +2,7 @@ import streamlit as st
 from geopy.distance import geodesic
 
 # Define the allowed geographical area (latitude, longitude)
-#allowed_area = (28.5810, 77.0571)  # Example coordinates for Bangalore
-allowed_area = (77.0571, 28.5810) 
+allowed_area = (28.5810, 77.0571)  # Example coordinates for Bangalore
 
 # Function to check if the user is within the allowed area
 def is_within_allowed_area(user_location):
